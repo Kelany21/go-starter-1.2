@@ -1,11 +1,10 @@
 package helpers
 
 import (
-	"net/http"
-
 	"github.com/bykovme/gotrans"
 	"github.com/gin-gonic/gin"
 	"github.com/thedevsaddam/govalidator"
+	"net/http"
 )
 
 /**
@@ -71,32 +70,6 @@ func ReturnNotValidRequest(error *govalidator.Validator, g *gin.Context) bool {
 	return false
 }
 
-func ReturnNotValidCategory(g *gin.Context) {
-
-	g.JSON(
-		http.StatusBadRequest, gin.H{
-			"status":  false,
-			"message": gotrans.Tr(GetCurrentLang(g), "400"),
-			"errors":  gotrans.Tr(GetCurrentLang(g), "not_valid_category"),
-			"code":    400,
-			"payload": nil,
-		})
-
-}
-
-func ReturnNotValidPost(g *gin.Context) {
-
-	g.JSON(
-		http.StatusBadRequest, gin.H{
-			"status":  false,
-			"message": gotrans.Tr(GetCurrentLang(g), "400"),
-			"errors":  gotrans.Tr(GetCurrentLang(g), "not_valid_post"),
-			"code":    400,
-			"payload": nil,
-		})
-
-}
-
 /**
 * NotValidRequest response
  */
@@ -152,13 +125,6 @@ func OkResponseWithOutData(g *gin.Context, msg string) {
 	var errors map[string]string
 	var data map[string]interface{}
 	response(g, msg, data, errors, http.StatusOK, 200, true)
-	return
-}
-
-func ReturnCanNotDeleteAuth(g *gin.Context, msg string) {
-	var errors map[string]string
-	var data map[string]interface{}
-	response(g, msg, data, errors, http.StatusBadRequest, 400, true)
 	return
 }
 

@@ -1,12 +1,11 @@
 package users
 
 import (
+	"github.com/gin-gonic/gin"
 	"golang-starter/app/models"
 	"golang-starter/app/transformers"
 	"golang-starter/config"
 	"golang-starter/helpers"
-
-	"github.com/gin-gonic/gin"
 )
 
 /***
@@ -20,7 +19,7 @@ func Index(g *gin.Context) {
 		DB:      config.DB,
 		Page:    helpers.Page(g),
 		Limit:   helpers.Limit(g),
-		OrderBy: helpers.Order("id desc"),
+		OrderBy: helpers.Order(g,"id desc"),
 		Filters: filter(g),
 		Preload: preload(),
 		ShowSQL: true,
@@ -77,15 +76,9 @@ func Delete(g *gin.Context) {
 		helpers.ReturnNotFound(g, helpers.ItemNotFound(g))
 		return
 	}
-	if row.Token == g.GetHeader("Authorization") {
-		helpers.ReturnCanNotDeleteAuth(g, helpers.CanNotDeleteAuth(g))
-	} else {
-		DeleteRelated(row)
-		config.DB.Unscoped().Delete(&row)
-
-		helpers.OkResponseWithOutData(g, helpers.DoneDelete(g))
-	}
+	config.DB.Unscoped().Delete(&row)
 	// now return row data after transformers
+	helpers.OkResponseWithOutData(g, helpers.DoneDelete(g))
 }
 
 /**

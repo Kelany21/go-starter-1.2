@@ -3,7 +3,6 @@ package seeders
 import (
 	"golang-starter/app/models"
 	"golang-starter/config"
-
 	"syreclabs.com/go/faker"
 )
 
@@ -12,7 +11,7 @@ import (
 * 	Example :  file is user function must be UserSeeder
  */
 func (s *Seeder) CategorySeeder() {
-	for i := 0; i < 10; i++ {
+	for i := 0 ; i < 10 ; i++ {
 		newCategory()
 	}
 }
@@ -20,10 +19,10 @@ func (s *Seeder) CategorySeeder() {
 /**
 * fake data and create data base
  */
-func newCategory() {
+func newCategory()  {
 	data := models.Category{
-		Name:   faker.Internet().UserName(),
-		Status: faker.RandomInt(1, 2),
+		Name:     faker.Internet().UserName(),
+		Status:   faker.RandomInt(1,2),
 	}
 	config.DB.Create(&data)
 }

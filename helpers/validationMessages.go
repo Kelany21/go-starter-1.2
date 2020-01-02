@@ -6,10 +6,6 @@ func Required(lang string) string {
 	return "required:" + gotrans.Tr(lang, "required")
 }
 
-func Dimensions(lang string, maxWidth string, maxHeight string) string {
-	return "dimensions:" + gotrans.Tr(lang, "dimensions") + " " + maxWidth + " x " + maxHeight
-}
-
 func StringsSlice(lang string) string {
 	return "strings_slice:" + gotrans.Tr(lang, "strings_slice")
 }
@@ -24,6 +20,15 @@ func Email(lang string) string {
 
 func Min(lang string, number string) string {
 	return "min:" + gotrans.Tr(lang, "min") + " " + number
+}
+
+func In(lang string, ableStrings... string) string {
+	returnString := "( "
+	for i:= 0 ; i< len(ableStrings)-1 ; i++{
+		returnString += ableStrings[i] + ", "
+	}
+	returnString += ableStrings[len(ableStrings)-1] + " )"
+	return "in:" + gotrans.Tr(lang, "in") + " " + returnString
 }
 
 func Ext(lang string, extentions string) string {

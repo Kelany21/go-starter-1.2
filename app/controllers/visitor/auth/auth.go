@@ -2,14 +2,13 @@ package auth
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"golang-starter/app/models"
 	"golang-starter/app/requests/visitor"
 	"golang-starter/app/transformers"
 	"golang-starter/config"
 	"golang-starter/helpers"
 	"os"
-
-	"github.com/gin-gonic/gin"
 )
 
 /**
@@ -49,7 +48,7 @@ func Login(g *gin.Context) {
 		helpers.ReturnNotFound(g, "your email or your password are not valid")
 		return
 	}
-	// update token then return with the new data
+	 // update token then return with the new data
 	token, _ := helpers.GenerateToken(user.Password + user.Email)
 	config.DB.Model(&user).Update("token", token).First(&user)
 	// now user is login we can return his info
@@ -77,7 +76,7 @@ func Register(g *gin.Context) {
 	/**
 	* check if this email exists database
 	* if this email found will return
-	 */
+	*/
 	config.DB.Find(&user, "email = ? ", user.Email)
 	if user.ID != 0 {
 		helpers.ReturnDuplicateData(g, "email")
@@ -87,13 +86,13 @@ func Register(g *gin.Context) {
 	* set role and block
 	* role 1 is user
 	* block user (1 , 2) 2 is not block 1 is block
-	 */
-	user.Role = 1
+	*/
+	user.Role =  1
 	user.Block = 2
 	/**
 	* create new user based on register struct
 	* token , role  , block will set with event
-	 */
+	*/
 	config.DB.Create(&user)
 	// now user is login we can return his info
 	helpers.OkResponse(g, "Thank you for register in our system", transformers.UserResponse(*user))
@@ -131,7 +130,7 @@ func Recover(g *gin.Context) {
 	/**
 	* now update token and update password
 	* we update token to make it the old link not valid
-	 */
+	*/
 	encPassword, _ := helpers.HashPassword(recoverPassword.Password)
 	token, _ := helpers.GenerateToken(user.Password + user.Email)
 	config.DB.Model(&user).Updates(map[string]interface{}{"password": encPassword, "token": token}).First(&user)
@@ -188,49 +187,12 @@ func Reset(g *gin.Context) {
 /**
 * create reset password link
 * send it to user email
- */
-func sendRestLink(user models.User) {
+*/
+func sendRestLink(user models.User)  {
 	msg := "Your Request To reset your password if you take this action click on this link to reset your password " + "\n"
-	msg += os.Getenv("RESET_PASSWORD_URL") + "?token=" + user.Token + "&email=" + user.Email
+	msg += os.Getenv("RESET_PASSWORD_URL") + user.Token
 	helpers.SendMail(user.Email, "Reset Password Request", msg)
 }
-
-/**
-* reset password
- */
-func Forgot(g *gin.Context) {
-	//init Reset struct to validate request
-	forgotPassword := new(models.Forgot)
-	/**
-	* get request and parse it to validation
-	* if there any error will return with message
-	 */
-	err := visitor.Forgot(g.Request, forgotPassword)
-	/***
-	* return response if there an error if true you
-	* this mean you have errors so we will return and bind data
-	 */
-	if helpers.ReturnNotValidRequest(err, g) {
-		return
-	}
-	/**
-	* check if user exists
-	* check if user not blocked
-	 */
-	var user models.User
-	config.DB.Where("email = ? and token = ? and block = 2", g.Query("email"), g.Query("token")).First(&user)
-
-	/**
-	* now update token and update password
-	* we update token to make it the old link not valid
-	 */
-	encPassword, _ := helpers.HashPassword(forgotPassword.Password)
-	token, _ := helpers.GenerateToken(forgotPassword.Password + user.Email)
-	config.DB.Model(&user).Updates(map[string]interface{}{"password": encPassword, "token": token}).First(&user)
-	// return ok response
-	helpers.OkResponse(g, "Your password has been set , and your token changes", transformers.UserResponse(user))
-}
-
 /**
 * check if user exists
 * check if user not blocked

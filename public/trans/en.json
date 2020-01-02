@@ -14,6 +14,7 @@
   "duplicate_data_part_one" : "this ",
   "duplicate_data_part_two" : " already exists please try something else",
   "email" : "Email",
+  "name" : "Name",
   "email_not_valid" : "this email not valid",
   "upload_error_code" : " Error in upload file  ",
   "numeric" : "this input must be numeric",
@@ -22,8 +23,9 @@
   "upload_multi_images_error_code" : "please check files you upload",
   "init_project" : "Welcome in our services ",
   "strings_slice"  : "this input is required",
-  "dimensions"    : "max dimensions of image is",
-  "not_valid_category" : "category not found",
-  "not_valid_post": "post not found",
-  "can_not_delete_auth": "you can not delete auth user"
+  "deactivated": "hash tag has been deactivated",
+  "activated": "Item has been activated",
+  "trashed": "Item has been trashed",
+  "wrong" : "something went wrong",
+  "in" : "this field should be"
 }

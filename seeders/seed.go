@@ -1,9 +1,11 @@
 package seeders
 
 import (
+	"github.com/iancoleman/strcase"
 	"reflect"
 	"golang-starter/helpers"
 	"strings"
+	"fmt"
 )
 
 type Seeder struct {}
@@ -19,7 +21,8 @@ func Seed() {
 		filepath := strings.Split(file, ".")
 		fileName := filepath[0]
 		if fileName != "seed" {
-			functionName := strings.Title(filepath[0])+"Seeder"
+			functionName := strcase.ToCamel(filepath[0]) + "Seeder"
+			fmt.Println(functionName)
 			reflect.ValueOf(&t).MethodByName(functionName).Call([]reflect.Value{})
 		}
 	}

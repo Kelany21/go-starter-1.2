@@ -9,15 +9,16 @@ import (
 /**
 * function to send email with subject and content
  */
-func SendMail(email string, subject string, content string) {
-	auth := smtp.PlainAuth("", os.Getenv("STMP_EMAIL_ADDRESS"), os.Getenv("STMP_EMAIL_PASSWORD"), os.Getenv("STMP_EMAIL_HOST"))
-	to := []string{email}
-	msg := []byte("To : " + email + "\r\n" + "Subject : " + os.Getenv("APP_NAME") + " " + subject + "\r\n" + "\r\n" + content + "\r\n")
-	fmt.Println(os.Getenv("STMP_EMAIL_ADDRESS") + ":" + os.Getenv("STMP_EMAIL_PORT"))
-	err := smtp.SendMail(os.Getenv("STMP_EMAIL_HOST")+":"+os.Getenv("STMP_EMAIL_PORT"), auth, os.Getenv("STMP_EMAIL_ADDRESS"), to, msg)
-	fmt.Println("++++++++++++")
-	if err != nil {
+func SendMail(email string, subject string , content string) {
+	go func() {
+		auth := smtp.PlainAuth("", os.Getenv("STMP_EMAIL_ADDRESS"), os.Getenv("STMP_EMAIL_PASSWORD"), os.Getenv("STMP_EMAIL_HOST"))
+		to := []string{email}
+		msg := []byte("To : " + email + "\r\n" + "Subject : "+ os.Getenv("APP_NAME")+" "+subject + "\r\n" + "\r\n" + content + "\r\n" )
+		fmt.Println(os.Getenv("STMP_EMAIL_ADDRESS")+":"+os.Getenv("STMP_EMAIL_PORT"))
+		err := smtp.SendMail(os.Getenv("STMP_EMAIL_ADDRESS")+":"+os.Getenv("STMP_EMAIL_PORT"), auth, os.Getenv("STMP_EMAIL_ADDRESS"), to, msg)
+		fmt.Println("++++++++++++")
 		fmt.Println(err.Error())
-	}
-	fmt.Println("++++++++++++")
+		fmt.Println("++++++++++++")
+	}()
+	return
 }

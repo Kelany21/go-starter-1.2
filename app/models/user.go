@@ -1,10 +1,9 @@
 package models
 
 import (
+	"github.com/jinzhu/gorm"
 	"golang-starter/config"
 	"golang-starter/helpers"
-
-	"github.com/jinzhu/gorm"
 )
 
 /***
@@ -34,13 +33,6 @@ type Login struct {
  */
 type Reset struct {
 	Email string `json:"email"`
-}
-
-/**
-* use this struct when reset password
- */
-type Forgot struct {
-	Password string `json:"password"`
 }
 
 /**
@@ -79,6 +71,7 @@ func (s *MigrationTables) UserMigrate() {
 func UserFillAbleColumn() []string {
 	return []string{"name", "email", "role", "password", "block"}
 }
+
 
 /**
 * active category only

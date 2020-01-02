@@ -1,13 +1,12 @@
 package users
 
 import (
+	"github.com/gin-gonic/gin"
+	"github.com/thedevsaddam/govalidator"
 	"golang-starter/app/models"
 	"golang-starter/app/requests/admin/user"
 	"golang-starter/config"
 	"golang-starter/helpers"
-
-	"github.com/gin-gonic/gin"
-	"github.com/thedevsaddam/govalidator"
 )
 
 /**
@@ -68,22 +67,11 @@ func validateRequest(g *gin.Context, action string) (bool, *models.User) {
  */
 func FindOrFail(id interface{}) (models.User, bool) {
 	var oldRow models.User
-	config.DB.Where("id = ?", id).Find(&oldRow)
+	config.DB.Where("id = ?" , id).Find(&oldRow)
 	if oldRow.ID != 0 {
 		return oldRow, true
 	}
 	return oldRow, false
-}
-
-func DeleteRelated(row models.User) {
-	var (
-		comments []models.Comment
-		posts    []models.Post
-	)
-
-	config.DB.Where("user_id = ?", row.ID).Delete(&comments)
-
-	config.DB.Where("user_id = ?", row.ID).Delete(&posts)
 }
 
 /**
@@ -97,6 +85,6 @@ func updateColumns(row *models.User, oldRow models.User) models.User {
 	}
 	onlyAllowData := helpers.UpdateOnlyAllowColumns(row, models.UserFillAbleColumn())
 	config.DB.Model(&oldRow).Updates(onlyAllowData)
-	newData, _ := FindOrFail(oldRow.ID)
+	newData  , _ :=  FindOrFail(oldRow.ID)
 	return newData
 }

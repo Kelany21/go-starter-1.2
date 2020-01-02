@@ -1,25 +1,24 @@
 package visitor
 
 import (
+	"github.com/thedevsaddam/govalidator"
 	"golang-starter/app/models"
 	"net/http"
-
-	"github.com/thedevsaddam/govalidator"
 )
 
 /**
 * validate login request
- */
-func Login(r *http.Request, login *models.Login) *govalidator.Validator {
+*/
+func Login(r *http.Request , login *models.Login) *govalidator.Validator {
 	/// Validation rules
 	rules := govalidator.MapData{
 		"email":    []string{"required", "min:6", "max:50", "email"},
 		"password": []string{"required", "between:6,20"},
 	}
 	opts := govalidator.Options{
-		Request:         r,     // request object
-		Rules:           rules, // rules map
-		Data:            login,
+		Request: r,     // request object
+		Rules:   rules, // rules map
+		Data:    login,
 		RequiredDefault: true, // all the field to be pass the rules
 	}
 	return govalidator.New(opts)
@@ -28,7 +27,7 @@ func Login(r *http.Request, login *models.Login) *govalidator.Validator {
 /**
 * validate register request
  */
-func Register(r *http.Request, user *models.User) *govalidator.Validator {
+func Register(r *http.Request , user *models.User) *govalidator.Validator {
 	/// Validation rules
 	rules := govalidator.MapData{
 		"email":    []string{"required", "min:6", "max:50", "email"},
@@ -36,9 +35,9 @@ func Register(r *http.Request, user *models.User) *govalidator.Validator {
 		"password": []string{"required", "between:6,20"},
 	}
 	opts := govalidator.Options{
-		Request:         r,     // request object
-		Rules:           rules, // rules map
-		Data:            user,
+		Request: r,     // request object
+		Rules:   rules, // rules map
+		Data:    user,
 		RequiredDefault: true, // all the field to be pass the rules
 	}
 	return govalidator.New(opts)
@@ -47,32 +46,15 @@ func Register(r *http.Request, user *models.User) *govalidator.Validator {
 /**
 * validate Reset request
  */
-func Reset(r *http.Request, user *models.Reset) *govalidator.Validator {
+func Reset(r *http.Request , user *models.Reset) *govalidator.Validator {
 	/// Validation rules
 	rules := govalidator.MapData{
-		"email": []string{"required", "min:6", "max:50", "email"},
+		"email":    []string{"required", "min:6", "max:50", "email"},
 	}
 	opts := govalidator.Options{
-		Request:         r,     // request object
-		Rules:           rules, // rules map
-		Data:            user,
-		RequiredDefault: true, // all the field to be pass the rules
-	}
-	return govalidator.New(opts)
-}
-
-/**
-* validate forgot request
- */
-func Forgot(r *http.Request, user *models.Forgot) *govalidator.Validator {
-	/// Validation rules
-	rules := govalidator.MapData{
-		"password": []string{"required", "between:6,20"},
-	}
-	opts := govalidator.Options{
-		Request:         r,     // request object
-		Rules:           rules, // rules map
-		Data:            user,
+		Request: r,     // request object
+		Rules:   rules, // rules map
+		Data:    user,
 		RequiredDefault: true, // all the field to be pass the rules
 	}
 	return govalidator.New(opts)
@@ -81,16 +63,16 @@ func Forgot(r *http.Request, user *models.Forgot) *govalidator.Validator {
 /**
 * validate Recover request
  */
-func Recover(r *http.Request, user *models.Recover) *govalidator.Validator {
+func Recover(r *http.Request , user *models.Recover) *govalidator.Validator {
 	/// Validation rules
 	rules := govalidator.MapData{
 		"token":    []string{"required"},
 		"password": []string{"required", "between:6,20"},
 	}
 	opts := govalidator.Options{
-		Request:         r,     // request object
-		Rules:           rules, // rules map
-		Data:            user,
+		Request: r,     // request object
+		Rules:   rules, // rules map
+		Data:    user,
 		RequiredDefault: true, // all the field to be pass the rules
 	}
 	return govalidator.New(opts)

@@ -5,6 +5,7 @@ import (
 	"math"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/jinzhu/gorm"
 )
@@ -116,10 +117,32 @@ func Limit(g *gin.Context) int  {
 	return  page
 }
 
-func Order(order ...string)[]string   {
+func Order(g *gin.Context, order ...string)[]string   {
 	var o []string
-	for _ , orderBy := range order{
-		o = append(o , orderBy)
+
+	if  g.Query("order") != ""{
+
+		order := strings.SplitN(g.Query("order"), "|", -1)
+
+		for _ , orderBy := range order{
+			o = append(o , orderBy)
+		}
+		return o
+
+	}else{
+
+		for _ , orderBy := range order{
+			o = append(o , orderBy)
+		}
+		return o
+
 	}
-	return o
 }
+
+//func Order(order ...string)[]string   {
+//	var o []string
+//	for _ , orderBy := range order{
+//		o = append(o , orderBy)
+//	}
+//	return o
+//}

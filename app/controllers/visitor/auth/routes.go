@@ -13,7 +13,6 @@ func Routes(r *gin.RouterGroup) *gin.RouterGroup {
 	r.POST("register", Register)
 	r.POST("reset", Reset)
 	r.POST("recover", Recover)
-	r.POST("forgot", Forgot)
 
 	return r
 }

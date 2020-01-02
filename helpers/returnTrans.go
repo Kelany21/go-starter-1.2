@@ -13,8 +13,16 @@ func DoneDelete(g *gin.Context) string {
 	return gotrans.Tr(GetCurrentLang(g), "done_delete_item")
 }
 
-func CanNotDeleteAuth(g *gin.Context) string {
-	return gotrans.Tr(GetCurrentLang(g), "can_not_delete_auth")
+func DoneActivate(g *gin.Context) string {
+	return gotrans.Tr(GetCurrentLang(g),"activated")
+}
+
+func DoneTrash(g *gin.Context) string {
+	return gotrans.Tr(GetCurrentLang(g),"trashed")
+}
+
+func DoneDeactivate(g *gin.Context) string {
+	return gotrans.Tr(GetCurrentLang(g), "deactivated")
 }
 
 func DoneGetItem(g *gin.Context) string {
@@ -31,4 +39,8 @@ func DoneGetAllItems(g *gin.Context) string {
 
 func ItemNotFound(g *gin.Context) string {
 	return gotrans.Tr(GetCurrentLang(g), "item_not_found")
+}
+
+func Wrong(g *gin.Context) string {
+	return gotrans.Tr(GetCurrentLang(g), "wrong")
 }

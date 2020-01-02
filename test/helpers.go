@@ -2,12 +2,11 @@ package test
 
 import (
 	"fmt"
+	"github.com/stretchr/testify/assert"
+	"gopkg.in/thedevsaddam/gojsonq.v2"
 	"net/http/httptest"
 	"testing"
 	_ "testing"
-
-	"github.com/stretchr/testify/assert"
-	"gopkg.in/thedevsaddam/gojsonq.v2"
 )
 
 func checkPostRequestWithOutHeadersDataIsValid(t *testing.T, data interface{}, url string, migrate bool) {
@@ -65,7 +64,7 @@ func image() string {
 func images(numberOfImages int) []string {
 	var images []string
 	for i := 0; i <= numberOfImages; i++ {
-		images = append(images, image())
+		images = append(images , image())
 	}
 	return images
 }

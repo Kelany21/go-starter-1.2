@@ -19,7 +19,7 @@ var err error = nil
 
 /**
 * connect with data base with env file params
-* just edit all data in .env file
+* just edit all data in env file
  */
 func ConnectToDatabase() {
 	err = gotenv.Load()

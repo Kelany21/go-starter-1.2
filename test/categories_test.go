@@ -1,13 +1,12 @@
 package test
 
 import (
+	"github.com/stretchr/testify/assert"
 	"golang-starter/app/models"
 	"golang-starter/config"
 	"golang-starter/helpers"
 	"net/http/httptest"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 var categoryUrl = "admin/categories"

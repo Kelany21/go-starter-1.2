@@ -1,12 +1,11 @@
 package categories
 
 import (
+	"github.com/gin-gonic/gin"
 	"golang-starter/app/models"
 	"golang-starter/app/transformers"
 	"golang-starter/config"
 	"golang-starter/helpers"
-
-	"github.com/gin-gonic/gin"
 )
 
 /***
@@ -20,7 +19,7 @@ func Index(g *gin.Context) {
 		DB:      config.DB,
 		Page:    helpers.Page(g),
 		Limit:   helpers.Limit(g),
-		OrderBy: helpers.Order("id desc"),
+		OrderBy: helpers.Order(g,"id desc"),
 		Filters: filter(g),
 		Preload: preload(),
 		ShowSQL: true,
@@ -70,7 +69,6 @@ func Delete(g *gin.Context) {
 		helpers.ReturnNotFound(g, helpers.ItemNotFound(g))
 		return
 	}
-	DeleteRelated(row)
 	config.DB.Unscoped().Delete(&row)
 	// now return ok response
 	helpers.OkResponseWithOutData(g, helpers.DoneDelete(g))

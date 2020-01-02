@@ -24,7 +24,7 @@ func main() {
 	*/
 	requests.Init()
 	/**
-	* connect with data base logic you can edit .env file to
+	* connect with data base logic you can edit env file to
 	* change any connection params
 	 */
 	config.ConnectToDatabase()

@@ -1,14 +1,14 @@
 package test
 
 import (
+	"github.com/stretchr/testify/assert"
 	"golang-starter/app/models"
 	"golang-starter/config"
 	"golang-starter/helpers"
 	"net/http/httptest"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
+
 
 ///// show all case
 func TestUsersShowAll(t *testing.T) {
@@ -81,17 +81,17 @@ func TestStoreUsersWithValidData(t *testing.T) {
 /**
 * check if user has register with email before
  */
-func TestAddUserWithExistEmail(t *testing.T) {
+func TestAddUserWithExistEmail(t *testing.T)  {
 	usersUrl := "admin/users"
 	token := getTokenAsHeader(true)
-	k := post(existsEmailData(), usersUrl, false, token)
+	k := post(existsEmailData() , usersUrl , false , token)
 	assert.Equal(t, 409, k.Code)
 }
 
-func TestUpdateUserWithExistEmail(t *testing.T) {
+func TestUpdateUserWithExistEmail(t *testing.T)  {
 	usersUrl := "admin/users"
 	token := getTokenAsHeader(true)
-	k := post(existsEmailData(), usersUrl, false, token)
+	k := post(existsEmailData() , usersUrl , false , token)
 	assert.Equal(t, 409, k.Code)
 }
 
@@ -103,21 +103,22 @@ func TestAddUserNotValidInputs(t *testing.T) {
 	token := getTokenAsHeader(true)
 	///not valid email
 	checkPostRequestWithHeadersDataIsValid(t, models.User{
-		Name:     "Abdel Aziz hassan Abdel Aziz",
-		Role:     2,
-		Block:    1,
-		Email:    "zizo199988",
+		Name:  "Abdel Aziz hassan Abdel Aziz",
+		Role:  2,
+		Block: 1,
+		Email: "zizo199988",
 		Password: "12121221",
-	}, usersUrl, false, token)
+	}, usersUrl, false , token)
 	usersUrl = usersUrl + "/1"
 	checkPutRequestWithHeadersDataIsValid(t, models.User{
-		Name:     "Abdel Aziz hassan Abdel Aziz",
-		Role:     2,
-		Block:    1,
-		Email:    "zizo199988",
+		Name:  "Abdel Aziz hassan Abdel Aziz",
+		Role:  2,
+		Block: 1,
+		Email: "zizo199988",
 		Password: "12121221",
-	}, usersUrl, false, token)
+	}, usersUrl, false , token)
 }
+
 
 func TestUpdateUsersWithValidWithOutPasswordData(t *testing.T) {
 	usersUrl := "admin/users"
@@ -143,7 +144,7 @@ func TestUpdateUsersWithValidWithPasswordData(t *testing.T) {
 	usersUrl := "admin/users"
 	token := getTokenAsHeader(true)
 	var oldRow models.User
-	config.DB.Find(&oldRow, "id = 1")
+	config.DB.Find(&oldRow , "id = 1")
 	data := models.User{
 		Name:     "Abdel Aziz hassan Abdel Aziz",
 		Role:     2,
@@ -153,11 +154,11 @@ func TestUpdateUsersWithValidWithPasswordData(t *testing.T) {
 	}
 	k := put(data, usersUrl+"/1", false, token)
 	var row models.User
-	config.DB.Find(&row, "id = 1")
+	config.DB.Find(&row , "id = 1")
 	d := getDataMap(k)
 	assert.EqualValues(t, "Abdel Aziz hassan Abdel Aziz", d["name"])
 	assert.EqualValues(t, 2, d["role"])
-	assert.EqualValues(t, 1, d["block"])
+	assert.EqualValues(t,  1, d["block"])
 	assert.EqualValues(t, "zizo@gmail.com", d["email"])
 	assert.NotEqual(t, row.Password, oldRow.Password)
 	assert.Equal(t, 200, k.Code)
@@ -171,30 +172,30 @@ func TestUsersRequireInputs(t *testing.T) {
 	token := getTokenAsHeader(true)
 	///not send name
 	checkPostRequestWithHeadersDataIsValid(t, models.User{
-		Role:     2,
-		Block:    1,
-		Email:    "zizo199988@gmail.com",
+		Role:  2,
+		Block: 1,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///not send role
 	checkPostRequestWithHeadersDataIsValid(t, models.User{
-		Name:     "Abdel Aziz hassan Abdel Aziz",
-		Block:    1,
-		Email:    "zizo199988@gmail.com",
+		Name:  "Abdel Aziz hassan Abdel Aziz",
+		Block: 1,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///not send block
 	checkPostRequestWithHeadersDataIsValid(t, models.User{
-		Name:     "Abdel Aziz hassan Abdel Aziz",
-		Role:     2,
-		Email:    "zizo199988@gmail.com",
+		Name:  "Abdel Aziz hassan Abdel Aziz",
+		Role:  2,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///not send email
 	checkPostRequestWithHeadersDataIsValid(t, models.User{
-		Name:     "Abdel Aziz hassan Abdel Aziz",
-		Role:     2,
-		Block:    1,
+		Name:  "Abdel Aziz hassan Abdel Aziz",
+		Role:  2,
+		Block: 1,
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///not send password
@@ -207,30 +208,30 @@ func TestUsersRequireInputs(t *testing.T) {
 	usersUrl = usersUrl + "/1"
 	///not send name
 	checkPutRequestWithHeadersDataIsValid(t, models.User{
-		Role:     2,
-		Block:    1,
-		Email:    "zizo199988@gmail.com",
+		Role:  2,
+		Block: 1,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///not send role
 	checkPutRequestWithHeadersDataIsValid(t, models.User{
-		Name:     "Abdel Aziz hassan Abdel Aziz",
-		Block:    1,
-		Email:    "zizo199988@gmail.com",
+		Name:  "Abdel Aziz hassan Abdel Aziz",
+		Block: 1,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///not send block
 	checkPutRequestWithHeadersDataIsValid(t, models.User{
-		Name:     "Abdel Aziz hassan Abdel Aziz",
-		Role:     2,
-		Email:    "zizo199988@gmail.com",
+		Name:  "Abdel Aziz hassan Abdel Aziz",
+		Role:  2,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///not send email
 	checkPutRequestWithHeadersDataIsValid(t, models.User{
-		Name:     "Abdel Aziz hassan Abdel Aziz",
-		Role:     2,
-		Block:    1,
+		Name:  "Abdel Aziz hassan Abdel Aziz",
+		Role:  2,
+		Block: 1,
 		Password: "12121221",
 	}, usersUrl, false, token)
 }
@@ -243,163 +244,163 @@ func TestUsersInputsLimitation(t *testing.T) {
 	token := getTokenAsHeader(true)
 	///min send name
 	checkPostRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(5),
-		Role:     2,
-		Block:    1,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(5),
+		Role:  2,
+		Block: 1,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///max send name
 	checkPostRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(80),
-		Role:     2,
-		Block:    1,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(80),
+		Role:  2,
+		Block: 1,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///min send Role
 	checkPostRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     0,
-		Block:    1,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(10),
+		Role:  0,
+		Block: 1,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///max send Role
 	checkPostRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     100,
-		Block:    1,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(10),
+		Role:  100,
+		Block: 1,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///min send Block
 	checkPostRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     1,
-		Block:    0,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(10),
+		Role:  1,
+		Block: 0,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///max send Block
 	checkPostRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     1,
-		Block:    3,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(10),
+		Role:  1,
+		Block: 3,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///min send Email
 	checkPostRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     1,
-		Block:    0,
-		Email:    "z@2.c",
+		Name:helpers.RandomString(10),
+		Role:  1,
+		Block: 0,
+		Email: "z@2.c",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///max send Email
 	checkPostRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     1,
-		Block:    3,
-		Email:    helpers.RandomString(100) + "@gmail.com",
+		Name:helpers.RandomString(10),
+		Role:  1,
+		Block: 3,
+		Email: helpers.RandomString(100)+"@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///min send Password
 	checkPostRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     1,
-		Block:    0,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(10),
+		Role:  1,
+		Block: 0,
+		Email: "zizo199988@gmail.com",
 		Password: helpers.RandomString(2),
 	}, usersUrl, false, token)
 	///max send Password
 	checkPostRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     1,
-		Block:    3,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(10),
+		Role:  1,
+		Block: 3,
+		Email: "zizo199988@gmail.com",
 		Password: helpers.RandomString(1000),
 	}, usersUrl, false, token)
 	usersUrl = usersUrl + "/1"
 	///min send name
 	checkPutRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(5),
-		Role:     2,
-		Block:    1,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(5),
+		Role:  2,
+		Block: 1,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///max send name
 	checkPutRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(80),
-		Role:     2,
-		Block:    1,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(80),
+		Role:  2,
+		Block: 1,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///min send Role
 	checkPutRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     0,
-		Block:    1,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(10),
+		Role:  0,
+		Block: 1,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///max send Role
 	checkPutRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     100,
-		Block:    1,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(10),
+		Role:  100,
+		Block: 1,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///min send Block
 	checkPutRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     1,
-		Block:    0,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(10),
+		Role:  1,
+		Block: 0,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///max send Block
 	checkPutRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     1,
-		Block:    3,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(10),
+		Role:  1,
+		Block: 3,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///min send Email
 	checkPutRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     1,
-		Block:    0,
-		Email:    "z@2.c",
+		Name:helpers.RandomString(10),
+		Role:  1,
+		Block: 0,
+		Email: "z@2.c",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///max send Email
 	checkPutRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     1,
-		Block:    3,
-		Email:    helpers.RandomString(100) + "@gmail.com",
+		Name:helpers.RandomString(10),
+		Role:  1,
+		Block: 3,
+		Email: helpers.RandomString(100)+"@gmail.com",
 		Password: "12121221",
 	}, usersUrl, false, token)
 	///min send Password
 	checkPutRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     1,
-		Block:    0,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(10),
+		Role:  1,
+		Block: 0,
+		Email: "zizo199988@gmail.com",
 		Password: helpers.RandomString(2),
 	}, usersUrl, false, token)
 	///max send Password
 	checkPutRequestWithHeadersDataIsValid(t, models.User{
-		Name:     helpers.RandomString(10),
-		Role:     1,
-		Block:    3,
-		Email:    "zizo199988@gmail.com",
+		Name:helpers.RandomString(10),
+		Role:  1,
+		Block: 3,
+		Email: "zizo199988@gmail.com",
 		Password: helpers.RandomString(1000),
 	}, usersUrl, false, token)
 
@@ -420,10 +421,10 @@ func newUser(t *testing.T, migrate bool, token map[string]string) *httptest.Resp
 
 func existsEmailData() models.User {
 	return models.User{
-		Name:     "Abdel Aziz hassan Abdel Aziz",
-		Role:     2,
-		Block:    1,
-		Email:    "zizo199988@gmail.com",
+		Name:  "Abdel Aziz hassan Abdel Aziz",
+		Role:  2,
+		Block: 1,
+		Email: "zizo199988@gmail.com",
 		Password: "12121221",
 	}
 }

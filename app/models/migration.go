@@ -16,7 +16,7 @@ type MigrationTables struct{}
 /**
 * first loop in all migrations files
 * get all migration methods
-* drop related table if .env have delete attribute
+* drop related table if env have delete attribute
 * Call migration function
  */
 func MigrateAllTable(path string) {

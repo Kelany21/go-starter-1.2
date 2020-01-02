@@ -1,26 +1,17 @@
 package transformers
 
-import (
-	"golang-starter/app/models"
-	"golang-starter/config"
-)
+import "golang-starter/app/models"
 
 /**
 * stander the single translation response
  */
 func TranslationResponse(translation models.Translation) map[string]interface{} {
-	var (
-		u    = make(map[string]interface{})
-		page models.Page
-	)
-
-	config.DB.Where("id = ?", translation.PageId).First(&page)
-
+	var u = make(map[string]interface{})
 	u["value"] = translation.Value
 	u["id"] = translation.ID
 	u["slug"] = translation.Slug
 	u["lang"] = translation.Lang
-	u["page"] = page.Name
+	u["page_id"] = translation.PageId
 
 	return u
 }
